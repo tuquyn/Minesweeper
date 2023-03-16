@@ -2,11 +2,11 @@ public class Cell {
     // the number of surrounding mines: -1 when the cell is mine
     private int num;
     // the status of cell: 0 free, 1 flagged, 2 opened
-    private int status;
+    private CellStatus status;
 
     public Cell() {
         this.num = 0;
-        this.status = 0;
+        this.status = CellStatus.FREE;
     }
 
 
@@ -18,11 +18,11 @@ public class Cell {
         this.num = num;
     }
 
-    public int getStatus() {
+    public CellStatus getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(CellStatus status) {
         this.status = status;
     }
     public boolean isMine(){
@@ -31,12 +31,16 @@ public class Cell {
         else
             return false;
     }
-    public void openCell(){
-        if(status == 1)
-            return;
-        setStatus(2);
+
+    //fail to openCell => game over
+    public boolean openCell(){
+        if(status == CellStatus.FLAGGED)
+            return true;
+        setStatus(CellStatus.OPENED);
         if(isMine())
-            gameLose();
+            return false;
+        else
+            return true;
     }
     public void gameLose(){
         // do something
