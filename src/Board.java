@@ -64,15 +64,16 @@ public class Board {
             for(int j = -1; j <= 1; j++)
                 for(int k = -1; k <= 1; k++)
                     if((j != 0 || k != 0) && !outBoard(x+j,y+k))
-                        if(arr[x+j][y+k].getStatus() == CellStatus.FREE && arr[x+j][y+k].getNum() != -1) {
-                            arr[x + j][y + k].openCell();
+                        if(arr[x+j][y+k].getStatus() == CellStatus.FREE) {
+                            if (!arr[x + j][y + k].openCell()) {
+                                return false;
+                            }
                             if (arr[x+j][y+k].getNum() == 0) {
                                 autoOpen(x + j, y + k);
                             }
                         }
-            return true;
-        } else {
-            return false;
+
         }
+        return true;
     }
 }
